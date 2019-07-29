@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style media="screen">
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #eceff1;
+        color: rgba(0, 0, 0, 0.87);
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .clocks {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .clock {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        justify-content: center;
+        flex: 1;
+      }
+
+      #time {
+        flex: 1;
+        font-size: 6em;
+      }
+
+      .circle {
+        position: relative;
+        height: 300px;
+        width: 300px;
+        border-radius: 50%;
+        background-color: #ffa100;
+      }
+
+      #minute,
+      #rate {
+        transform: rotate(60deg);
+        transform-origin: bottom center;
+        position: absolute;
+        height: 150px;
+        width: 5px;
+        background-color: black;
+        margin-left: 150px;
+      }
+
+      #hour {
+        transform: rotate(30deg);
+        transform-origin: bottom center;
+        position: absolute;
+        display: inline-block;
+        height: 120px;
+        top: 30px;
+        width: 5px;
+        background-color: green;
+        margin-left: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="clocks">
+      <div class="clock">
+        <div class="circle">
+          <div id="minute"></div>
+          <div id="hour"></div>
+        </div>
+        <div class="hourdeg">
+          <p>hour degrees: <span id="hourd">0</span></p>
+        </div>
+        <div class="mindeg">
+          <p>minute degrees: <span id="mind">0</span></p>
+        </div>
+      </div>
+      <div class="clock">
+        <div class="circle">
+          <div id="rate"></div>
+        </div>
+        <div class="hourdeg">
+          <p>rate degrees: <span id="rated">0</span></p>
+        </div>
+      </div>
+    </div>
+    <div id="time"></div>
+    <div class="factors"></div>
+    <script>
+      let tick = 0;
+      let interval;
+      let hour = 0;
+      let minute = 0;
+      let second = 0;
+
+      interval = setInterval(function() {
+        tick += 1;
+        const hourdeg = ((tick * 0.5 * 3) / 100) % 360;
+        const mindeg = ((tick * 6 * 3) / 100) % 360;
+        const secdeg = ((tick * 360 * 3) / 100) % 360;
+        const ratedeg = (tick * 5.5 * 3) / 100;
+
+        if (Math.floor(ratedeg) >= 360) clearInterval(interval);
+
+        document.getElementById(
+          "hour"
+        ).style.transform = `rotate(${hourdeg}deg)`;
+        document.getElementById(
+          "minute"
+        ).style.transform = `rotate(${mindeg}deg)`;
+        document.getElementById(
+          "rate"
+        ).style.transform = `rotate(${ratedeg}deg)`;
+
+        document.getElementById("mind").textContent = Math.floor(mindeg);
+        document.getElementById("hourd").textContent = Math.floor(hourdeg);
+        document.getElementById("rated").textContent = Math.floor(ratedeg);
+
+        hour = Math.floor((hourdeg / 30) % 12);
+        minute = Math.floor((mindeg / 6) % 60);
+        second = Math.floor((secdeg / 360) * 60);
+        document.getElementById(
+          "time"
+        ).textContent = `${hour
+          .toString()
+          .padStart(2, 0)}:${minute
+          .toString()
+          .padStart(2, 0)}:${second.toString().padStart(2, 0)}`;
+      }, 1);
+    </script>
+  </body>
+</html>
