@@ -16,6 +16,26 @@
         padding: 0;
       }
 
+      .blinking {
+        animation: blinkingText 0.8s infinite;
+      }
+      @keyframes blinkingText {
+        0% {
+          color: #000;
+        }
+        49% {
+          color: transparent;
+        }
+        50% {
+          color: transparent;
+        }
+        99% {
+          color: transparent;
+        }
+        100% {
+          color: #000;
+        }
+      }
       .clocks {
         display: flex;
         flex-direction: row;
@@ -54,6 +74,10 @@
         margin-left: 150px;
       }
 
+      .fraction {
+        font-size: 100px;
+      }
+
       #hour {
         transform: rotate(30deg);
         transform-origin: bottom center;
@@ -86,9 +110,12 @@
           <div id="rate"></div>
         </div>
         <div class="hourdeg">
-          <p>rate degrees: <span id="rated">0</span></p>
+          <p>rate degrees: <span id="rate d">0</span></p>
         </div>
       </div>
+    </div>
+    <div class="fraction">
+      <p class="blinking">65 5/11 minutes</div>
     </div>
     <div id="time"></div>
     <div class="factors"></div>
